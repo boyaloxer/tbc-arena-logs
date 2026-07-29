@@ -1,0 +1,514 @@
+:root {
+  color-scheme: dark;
+  --bg: #000000;
+  --panel: #0d0d0d;
+  --panel-2: #161616;
+  --border: #2a2a2a;
+  --text: #ffffff;
+  --muted: #9a9a9a;
+  --accent: #5b9fd4;
+  --row-h: 22px;
+  --seg-h: 16px; /* icon + bar share this exact size */
+  --label-w: 200px;
+  --ruler-h: 32px;
+  font-family: Arial, "Segoe UI", Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1.25;
+  background: var(--bg);
+  color: var(--text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  background: #000;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  min-height: 0;
+  background: #000;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid #222;
+  background: #0a0a0a;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-right: 8px;
+}
+
+.topbar .muted,
+.drop-hint {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.file-btn {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.file-btn:hover {
+  border-color: var(--accent);
+}
+
+.file-btn input {
+  display: none;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.sidebar {
+  border-right: 1px solid #222;
+  background: #0a0a0a;
+  overflow: auto;
+  padding: 12px;
+}
+
+.sidebar h2 {
+  margin: 0 0 10px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.match-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.match-card {
+  text-align: left;
+  background: #141414;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  padding: 9px;
+  cursor: pointer;
+}
+
+.match-card:hover,
+.match-card.active {
+  border-color: var(--accent);
+}
+
+.match-card .title {
+  font-weight: 600;
+}
+
+.match-card .meta {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+.main-chrome {
+  flex: 0 0 auto;
+  z-index: 4;
+  background: #000;
+}
+
+.timeline-pane {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #222;
+  background: #0a0a0a;
+}
+
+.toolbar label {
+  color: var(--muted);
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.toolbar select,
+.toolbar input[type="range"] {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 3px;
+  padding: 3px 6px;
+}
+
+.stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 6px 12px;
+  border-bottom: 1px solid #222;
+  background: #000;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.stats-bar strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* —— WCL-like aura filter strips —— */
+.aura-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 12px 6px;
+  border-bottom: 1px solid #222;
+  background: #000;
+}
+
+.aura-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.aura-filter-label {
+  color: #cfcfcf;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.aura-filter-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.aura-filter-btn {
+  padding: 0;
+  border: 1px solid #555;
+  background: #111;
+  border-radius: 2px;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.aura-filter-btn:hover {
+  border-color: #aaa;
+}
+
+.aura-filter-btn.off {
+  opacity: 0.28;
+  filter: grayscale(0.7);
+}
+
+.aura-filter-btn .spell-icon {
+  display: block;
+  border: none;
+}
+
+/* —— Timeline (WCL match) —— */
+.timeline-wrap {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: auto;
+  background: #000;
+  height: 100%;
+}
+
+.timeline {
+  position: relative;
+  min-width: 100%;
+  background: #000;
+}
+
+.ruler {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  display: grid;
+  grid-template-columns: var(--label-w) 1fr;
+  height: var(--ruler-h);
+  background: #000;
+  border-bottom: 1px solid #2a2a2a;
+  flex-shrink: 0;
+}
+
+.ruler-label {
+  position: sticky;
+  left: 0;
+  z-index: 7;
+  background: #000;
+  border-right: 1px solid #333;
+  box-shadow: 4px 0 6px rgba(0, 0, 0, 0.85);
+}
+
+.ruler-track {
+  position: relative;
+  overflow: visible;
+  background: #000;
+}
+
+/* White axis near the bottom; labels + ticks sit fully inside the ruler. */
+.ruler-axis {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  height: 1px;
+  background: #e8e8e8;
+}
+
+.tick {
+  position: absolute;
+  bottom: 6px;
+  width: 0;
+  border-left: 1px solid #e8e8e8;
+  height: 6px;
+}
+
+.tick.minor {
+  height: 4px;
+  border-left-color: #c8c8c8;
+}
+
+.tick.major {
+  height: 8px;
+  border-left-color: #ffffff;
+}
+
+.tick-label {
+  position: absolute;
+  bottom: 10px;
+  left: 3px;
+  color: #e8e8e8;
+  font-size: 11px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: var(--label-w) 1fr;
+  height: var(--row-h);
+  border-bottom: 1px solid #1c1c1c;
+  background: #000;
+}
+
+.row:hover {
+  background: #080808;
+}
+
+.row-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px;
+  border-right: 1px solid #222;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  position: sticky;
+  left: 0;
+  /* Above scrolling cast/aura segments so they tuck underneath while panning. */
+  z-index: 5;
+  background: #000;
+  box-shadow: 4px 0 6px rgba(0, 0, 0, 0.85);
+}
+
+.row:hover .row-label {
+  background: #080808;
+}
+
+.spell-icon {
+  display: block;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: #000;
+  object-fit: fill;
+  image-rendering: auto;
+  vertical-align: top;
+}
+
+.row-label .spell-icon {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.spell-name {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row-track {
+  position: relative;
+  z-index: 0;
+  background: #000;
+}
+
+.seg {
+  position: absolute;
+  /* Vertically center --seg-h inside --row-h */
+  top: calc((var(--row-h) - var(--seg-h)) / 2);
+  height: var(--seg-h);
+  cursor: default;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+/* Instant cast: bare icon, same size as aura bars */
+.seg.cast {
+  display: block;
+  padding: 0;
+  background: transparent;
+  z-index: 1;
+  line-height: 0;
+}
+
+.seg.cast .spell-icon {
+  display: block;
+  border: none;
+  box-shadow: none;
+}
+
+/*
+ * Duration bar: icon sits in a black mask square on the left (exact --seg-h).
+ * Highlight color starts after the icon so it never shows "through" the art.
+ * Thin inset edge on the colored portion only (via outline on the whole seg is ok).
+ */
+.seg.aura {
+  border: none;
+  border-radius: 0;
+  opacity: 1;
+  z-index: 1;
+  outline: 1px solid rgba(255, 255, 255, 0.22);
+  outline-offset: -1px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.seg.aura .aura-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  display: block;
+  background: #000;
+  line-height: 0;
+}
+
+.seg.aura .aura-icon .spell-icon {
+  display: block;
+  border: none;
+  box-shadow: none;
+}
+
+.empty,
+.warning,
+.hero {
+  padding: 40px 24px;
+  color: var(--muted);
+  max-width: 640px;
+  background: #000;
+}
+
+.hero h1 {
+  color: #fff;
+  font-size: 22px;
+  margin: 0 0 8px;
+}
+
+.warning {
+  color: #e0b45a;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.info {
+  color: #8ec8e8;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.sidebar-hint {
+  color: var(--muted);
+  font-size: 11px;
+  margin: 0 0 10px;
+  line-height: 1.35;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 20;
+  pointer-events: none;
+  background: #0b0b0b;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 8px 10px;
+  max-width: 320px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
+  font-size: 12px;
+}
+
+.tooltip .t-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tooltip .t-meta {
+  color: var(--muted);
+}
+
+.muted {
+  color: var(--muted);
+}
