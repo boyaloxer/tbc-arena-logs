@@ -54,6 +54,7 @@ export function parseCleuLine(line: string, id: number): CombatEvent | null {
   if (fields.length < 1) return null;
 
   const subEvent = fields[0];
+  if (subEvent === "COMBAT_LOG_VERSION") return null;
   const ts = parseLogTimestamp(rawTime);
   if (ts == null) return null;
 

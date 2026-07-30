@@ -154,7 +154,7 @@ select {
 .timeline-pane {
   flex: 1 1 0;
   min-height: 0;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   flex-direction: column;
 }
@@ -254,17 +254,23 @@ select {
 
 /* —— Timeline (WCL match) —— */
 .timeline-wrap {
-  flex: 1 1 0;
-  min-height: 0;
-  overflow: auto;
+  flex: 1 0 auto;
+  min-height: min-content;
+  overflow: visible;
   background: #000;
-  height: 100%;
+  /* Extra runway under the last rows so the page can scroll past them. */
+  padding-bottom: max(160px, 22vh);
 }
 
 .timeline {
   position: relative;
   min-width: 100%;
   background: #000;
+}
+
+.timeline-spacer {
+  height: 0;
+  pointer-events: none;
 }
 
 .ruler {
@@ -511,4 +517,98 @@ select {
 
 .muted {
   color: var(--muted);
+}
+
+.view-toggle {
+  display: inline-flex;
+  border: 1px solid #333;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.view-toggle button {
+  background: #141414;
+  border: none;
+  border-right: 1px solid #333;
+  padding: 5px 12px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.view-toggle button:last-child {
+  border-right: none;
+}
+
+.view-toggle button.active {
+  background: #2a4058;
+  color: #fff;
+}
+
+.view-toggle button:hover:not(.active) {
+  background: #1c1c1c;
+  color: #ddd;
+}
+
+.coord-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px max(160px, 22vh);
+  min-height: min-content;
+  overflow: visible;
+  background: #000;
+  flex: 1 0 auto;
+}
+
+.coord-header h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.coord-header .muted {
+  margin: 0;
+  font-size: 12px;
+}
+
+.coord-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 10px;
+}
+
+.coord-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #ddd;
+}
+
+.coord-legend-item i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 1px;
+}
+
+.coord-legend-item em {
+  color: #888;
+  font-style: normal;
+  font-size: 11px;
+}
+
+.coord-svg {
+  width: 100%;
+  height: min(420px, 55vh);
+  display: block;
+  background: #000;
+  border: 1px solid #222;
+}
+
+.coord-empty {
+  padding: 40px 24px;
+  color: #aaa;
+  max-width: 560px;
 }

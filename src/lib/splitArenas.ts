@@ -8,6 +8,7 @@ import {
   isTypePet,
   AFFILIATION_MINE,
 } from "./flags";
+import { buildPetOwnerMap } from "./petOwners";
 
 const GAP_SPLIT_MS = 90_000;
 const MIN_MATCH_MS = 8_000;
@@ -20,6 +21,7 @@ function shortName(name: string): string {
 
 function buildRoster(events: CombatEvent[]): Player[] {
   const map = new Map<string, Player>();
+  const petOwners = buildPetOwnerMap(events);
 
   for (const ev of events) {
     for (const actor of [ev.source, ev.target]) {
@@ -48,15 +50,19 @@ function buildRoster(events: CombatEvent[]): Player[] {
     for (const actor of [ev.source, ev.target]) {
       if (!actor) continue;
       if (isTypePet(actor.flags) || actor.guid.startsWith("Pet-")) {
-        if (!map.has(actor.guid)) {
+        const ownerGuid = petOwners.get(actor.guid)?.ownerGuid ?? null;
+        const existing = map.get(actor.guid);
+        if (!existing) {
           map.set(actor.guid, {
             guid: actor.guid,
             name: shortName(actor.name),
             className: null,
             side: isFriendlyFlags(actor.flags) ? "friendly" : isHostileFlags(actor.flags) ? "enemy" : "unknown",
             isPet: true,
-            ownerGuid: null,
+            ownerGuid,
           });
+        } else if (!existing.ownerGuid && ownerGuid) {
+          existing.ownerGuid = ownerGuid;
         }
       }
     }

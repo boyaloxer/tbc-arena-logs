@@ -142,6 +142,7 @@ export function Timeline({ match, rows, pxPerSecond }: Props) {
           );
         })}
       </div>
+      <div className="timeline-spacer" aria-hidden />
 
       {tip && (
         <div className="tooltip" style={{ left: tip.x, top: tip.y }}>
